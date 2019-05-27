@@ -1,0 +1,108 @@
+---
+swagger: "2.0"
+info:
+  title: Middleware
+  description: This is a simple 2.0 API definition.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  version: 1.0.0
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /widgets:
+    get:
+      summary: List All Widgets
+      description: Gets a list of all `Widget` entities.
+      operationId: getWidgets
+      responses:
+        200:
+          description: Successful response - returns an array of `Widget` entities.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Widget'
+    post:
+      summary: Create a Widget
+      description: Creates a new instance of a `Widget`.
+      operationId: createWidget
+      parameters:
+      - name: body
+        in: body
+        description: A new `Widget` to be created.
+        required: true
+        schema:
+          $ref: '#/definitions/Widget'
+      responses:
+        201:
+          description: Successful response.
+  /widgets/{widgetId}:
+    get:
+      summary: Get a Widget
+      description: Gets the details of a single instance of a `Widget`.
+      operationId: getWidget
+      responses:
+        200:
+          description: Successful response - returns a single `Widget`.
+          schema:
+            $ref: '#/definitions/Widget'
+    put:
+      summary: Update a Widget
+      description: Updates an existing `Widget`.
+      operationId: updateWidget
+      parameters:
+      - name: body
+        in: body
+        description: Updated `Widget` information.
+        required: true
+        schema:
+          $ref: '#/definitions/Widget'
+      responses:
+        202:
+          description: Successful response.
+    delete:
+      summary: Delete a Widget
+      description: Deletes an existing `Widget`.
+      operationId: deleteWidget
+      responses:
+        204:
+          description: Successful response.
+    parameters:
+    - name: widgetId
+      in: path
+      description: A unique identifier for a `Widget`.
+      required: true
+      type: string
+  /_health:
+    get:
+      description: Get Middleware health
+      responses:
+        200:
+          examples:
+            application/json:
+              message: 'middleware online. Release : 1.9.8'
+    parameters:
+    - name: X-BU
+      in: header
+      description: Business Unit number (FR / IT)
+      required: true
+      type: integer
+definitions:
+  Widget:
+    title: Root Type for Widget
+    description: A very simple, generic data type.
+    type: object
+    properties:
+      name:
+        description: The name of the widget.
+        type: string
+      description:
+        description: The description of the widget.
+        type: string
+    example: |-
+      {
+          "name": "My Widget",
+          "description": "Just a little widget for your review."
+      }
